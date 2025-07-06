@@ -30,7 +30,7 @@ def quitte(jeu):
 
 def est_en_game(jeu):
     # VALO
-    
+
     # Trouver Lockfile -> Extraire le port + token -> Appeler URL avec les infos 
     #-> Comparer les infos ("Ingame, Menus, Pregame...") 
 
@@ -61,3 +61,5 @@ jeu = "snap-store"
 
 
 Sleepnow(limite,jeu)
+
+#caca
