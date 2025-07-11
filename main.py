@@ -62,10 +62,17 @@ chemin_lockfile = os.path.join(
 
 def lirefile():
     with open(chemin_lockfile, "r", encoding="utf-8") as fichier:
-        for ligne in fichier:
-            print(ligne)
+        lockfile = fichier.read()
+    parties = lockfile.split(":")
+    return parties
+    
 
 lirefile()
+port = parties[1]
+token = parties[2]
+protocole = parties [3]
+adresse = parties [4]
+
 
 limite = time(12,0)
 
