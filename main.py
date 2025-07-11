@@ -1,5 +1,7 @@
 import psutil
 import os
+import requests
+from requests.auth import HTTPBasicAuth
 from datetime import datetime, timedelta, time
 
 
@@ -67,12 +69,28 @@ def lirefile():
     return parties
     
 
-lirefile()
-port = parties[1]
-token = parties[2]
-protocole = parties [3]
-adresse = parties [4]
+parties = lirefile()
+print(parties)
 
+port_API = parties[1]
+port_http = parties[2]
+token = parties [3]
+protocole = parties [4]
+
+#endpoint à appeler
+endpoint = "/riotclient/region-locale"
+
+#url complete
+url = f"{protocole}://127.0.0.1:{port_http}{endpoint}"
+
+rep = requests.get(
+    url,
+    auth = HTTPBasicAuth("riot", token),
+    verify = False
+)
+
+print(f"Status : {rep.status_code}")
+print(f"Réponse : {rep.text}")
 
 limite = time(12,0)
 
