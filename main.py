@@ -1,4 +1,5 @@
 import psutil
+import os
 from datetime import datetime, timedelta, time
 
 
@@ -49,17 +50,26 @@ def Sleepnow (limite,jeu):
     if (not est_en_game(jeu) and heure_depassee(limite)):
         quitte(jeu)
     else:
-        if heure_actuelle(limite):
+        if heure_depassee(limite):
             print("limite d'heure non dépassée")
         return()
 
 
+chemin_lockfile = os.path.join(
+    os.environ["LOCALAPPDATA"],"Riot Games","Riot Client","Config","lockfile"
+)
 
-limite =time(18,4)
+
+def lirefile():
+    with open(chemin_lockfile, "r", encoding="utf-8") as fichier:
+        for ligne in fichier:
+            print(ligne)
+
+lirefile()
+
+limite = time(12,0)
 
 jeu = "snap-store"
 
 
 Sleepnow(limite,jeu)
-
-#caca
