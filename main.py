@@ -75,39 +75,19 @@ def lirefile():
 parties = lirefile()
 print(parties)
 
-port_riot = parties[2]
+PID= parties[1]
+port = parties[2]
 token = parties [3]
 protocole = parties [4]
 
 #endpoint 
-endpoints = "/product-session/v1/external-sessions"
+endpoints = "/entitlements/v1/token"
 
 #demande du bon port permettant de faire des endpoints sur le gamestate
-url_sessions = f"{protocole}://127.0.0.1:{port_riot}{endpoints}"
+url_sessions = f"{protocole}://127.0.0.1:{port}{endpoints}"
 
 #requete pour recup le bon port
 reponse = requests.get(url_sessions, auth=HTTPBasicAuth("riot", token),verify = False)
-
-if reponse.status_code == 200:
-    sessions = reponse.json()
-
-    for key, session in sessions.items():
-        print(f"Clé = {key}, Produit = {sessions.get("productId")}")
-        if session.get("productId")=="valorant":
-            args = session["launchConfiguration"]["arguments"]
-            for arg in args:
-                if "-remoting-app-port" in arg:
-                    valorant_port = arg.split("=")[1]
-
-                    r_token = args[1].split("=")[1]
-
-                    url_presence = f"{protocole}://127.0.0.1:{valorant_port}/presence/v1/presences"
-                    presence_reponse = requests.get(url_presence, auth = HTTPBasicAuth("riot", r_token), verify = False)
-
-                    print ("Status :", presence_reponse.status_code)
-                    print ("Réponse :", presence_reponse.text)
-else:
-    print("Impossible de contacter le Riot Client")
 
 
 limite = time(12,0)
