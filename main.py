@@ -52,7 +52,6 @@ def est_en_game(jeu):
 
 
 def Sleepnow (limite,jeu):
-    heure_actuelle= 10
     if (not est_en_game(jeu) and heure_depassee(limite)):
         quitte(jeu)
     else:
@@ -76,8 +75,7 @@ def lirefile():
 parties = lirefile()
 print(parties)
 
-port_riot = parties[1]
-port_http = parties[2]
+port_riot = parties[2]
 token = parties [3]
 protocole = parties [4]
 
@@ -91,10 +89,10 @@ url_sessions = f"{protocole}://127.0.0.1:{port_riot}{endpoints}"
 reponse = requests.get(url_sessions, auth=HTTPBasicAuth("riot", token),verify = False)
 
 if reponse.status_code == 200:
-    data = reponse.json()
+    sessions = reponse.json()
 
-    for session in data:
-        if session["productId"]=="valorant":
+    for key, session in sessions.items():
+        if session.get["productId"]=="valorant":
             args = session["launchConfiguration"]["arguments"]
 
             for arg in args:
