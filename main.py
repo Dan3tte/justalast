@@ -81,12 +81,15 @@ token = parties [3]
 protocole = parties [4]
 
 #endpoint 
-endpoints = "/entitlements/v1/token"
+endpoints = "/chat/v4/session"
 
 #demande du bon port permettant de faire des endpoints sur le gamestate
 url_sessions = f"{protocole}://127.0.0.1:{port}{endpoints}"
 
-#requete pour recup le bon port
+region_rep = requests.get("https://riot-geo.pas.si.riotgames.com/pas/v1/product/valorant", auth=HTTPBasicAuth)
+print (region_rep.text)
+
+#requete pour recup le bon port (header)
 reponse = requests.get(url_sessions, auth=HTTPBasicAuth("riot", token),verify = False)
 
 print ("Status :", reponse.status_code)
