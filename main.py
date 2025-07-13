@@ -92,15 +92,17 @@ if reponse.status_code == 200:
     sessions = reponse.json()
 
     for key, session in sessions.items():
-        if session.get["productId"]=="valorant":
+        print(f"Clé = {key}, Produit = {sessions.get("productId")}")
+        if session.get("productId")=="valorant":
             args = session["launchConfiguration"]["arguments"]
-
             for arg in args:
-                if "--riotclient-app-port" in arg:
+                if "-remoting-app-port" in arg:
                     valorant_port = arg.split("=")[1]
 
+                    r_token = args[1].split("=")[1]
+
                     url_presence = f"{protocole}://127.0.0.1:{valorant_port}/presence/v1/presences"
-                    presence_reponse = requests.get(url_presence, auth = HTTPBasicAuth("riot", token), verify = False)
+                    presence_reponse = requests.get(url_presence, auth = HTTPBasicAuth("riot", r_token), verify = False)
 
                     print ("Status :", presence_reponse.status_code)
                     print ("Réponse :", presence_reponse.text)
