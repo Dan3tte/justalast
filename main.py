@@ -89,6 +89,9 @@ url_sessions = f"{protocole}://127.0.0.1:{port}{endpoints}"
 #requete pour recup le bon port
 reponse = requests.get(url_sessions, auth=HTTPBasicAuth("riot", token),verify = False)
 
+print ("Status :", reponse.status_code)
+print ("Réponse :", reponse.text)
+
 
 limite = time(12,0)
 
