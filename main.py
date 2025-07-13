@@ -3,7 +3,11 @@ import os
 import requests
 from requests.auth import HTTPBasicAuth
 from datetime import datetime, timedelta, time
+import urllib3
+import re
 
+#desactive le warning SSL
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def trouvepid(jeu):
     for proc in psutil.process_iter(['pid', 'name']):
@@ -72,25 +76,39 @@ def lirefile():
 parties = lirefile()
 print(parties)
 
-port_API = parties[1]
+port_riot = parties[1]
 port_http = parties[2]
 token = parties [3]
 protocole = parties [4]
 
-#endpoint à appeler
-endpoint = "/riotclient/region-locale"
+#endpoint 
+endpoints = "/product-session/v1/external-sessions"
 
-#url complete
-url = f"{protocole}://127.0.0.1:{port_http}{endpoint}"
+#demande du bon port permettant de faire des endpoints sur le gamestate
+url_sessions = f"{protocole}://127.0.0.1:{port_riot}{endpoints}"
 
-rep = requests.get(
-    url,
-    auth = HTTPBasicAuth("riot", token),
-    verify = False
-)
+#requete pour recup le bon port
+reponse = requests.get(url_sessions, auth=HTTPBasicAuth("riot", token),verify = False)
 
-print(f"Status : {rep.status_code}")
-print(f"Réponse : {rep.text}")
+if reponse.status_code == 200:
+    data = reponse.json()
+
+    for session in data:
+        if session["productId"]=="valorant":
+            args = session["launchConfiguration"]["arguments"]
+
+            for arg in args:
+                if "--riotclient-app-port" in arg:
+                    valorant_port = arg.split("=")[1]
+
+                    url_presence = f"{protocole}://127.0.0.1:{valorant_port}/presence/v1/presences"
+                    presence_reponse = requests.get(url_presence, auth = HTTPBasicAuth("riot", token), verify = False)
+
+                    print ("Status :", presence_reponse.status_code)
+                    print ("Réponse :", presence_reponse.text)
+else:
+    print("Impossible de contacter le Riot Client")
+
 
 limite = time(12,0)
 
