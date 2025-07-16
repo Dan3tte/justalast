@@ -56,8 +56,14 @@ def Sleepnow (limite,jeu):
         quitte(jeu)
     else:
         if heure_depassee(limite):
-            print("limite d'heure non dépassée")
-        return()
+            if est_en_game(jeu):
+                print("en partie !")
+                return ()
+            else:
+            if not heure_depassee(limite)
+                print("limite d'heure non dépassée")
+                return ()
+        return ()
 
 
 chemin_lockfile = os.path.join(
@@ -81,22 +87,21 @@ token = parties [3]
 protocole = parties [4]
 
 #endpoint 
-endpoints = "/chat/v4/session"
+endpoints = "/entitlements/v1/token"
 
-#demande du bon port permettant de faire des endpoints sur le gamestate
+#url    
 url_sessions = f"{protocole}://127.0.0.1:{port}{endpoints}"
 
-region_rep = requests.get("https://riot-geo.pas.si.riotgames.com/pas/v1/product/valorant", auth=HTTPBasicAuth)
-print (region_rep.text)
-
-#requete pour recup le bon port (header)
+#requete avec les header
 reponse = requests.get(url_sessions, auth=HTTPBasicAuth("riot", token),verify = False)
+
+
 
 print ("Status :", reponse.status_code)
 print ("Réponse :", reponse.text)
 
 
-limite = time(12,0)
+limite = time(23,0)
 
 jeu = "snap-store"
 
