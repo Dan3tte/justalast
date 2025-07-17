@@ -1,18 +1,21 @@
 import os
 from valorant import LocalClient
+import json
 from dotenv import load_dotenv
+
 load_dotenv()
 
 
 client = LocalClient()
 
 status = client.get_session()
+precence = client.get_presences(user=True)
 
+private_data_raw = precence['private']
+private_data = json.loads(private_data_raw)
 
-# Exemple d’accès possible à l'état (à adapter selon le nom de la propriété)
-print("Phase:", session.phase)
-# ou
-print("InGame:", session.in_game)
+print(private_data['sessionLoopState'])
+
 #skins = client.get_skins()
 
 #name = input("Search a Valorant Skin Collection: ")
