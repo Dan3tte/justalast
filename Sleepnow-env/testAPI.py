@@ -1,25 +1,23 @@
 import os
 from valorant import LocalClient
 import json
+import base64
 from dotenv import load_dotenv
 
 load_dotenv()
 
-
 client = LocalClient()
 
-status = client.get_session()
 
-live = client.get_live_match()
+presence = client.get_presences(user=True)
 
-print(live)
+private = presence.get('private')
 
-#skins = client.get_skins()
+missing_padding = len(private) % 4
+if missing_padding:
+    private += '=' *(4 - missing_padding)
 
-#name = input("Search a Valorant Skin Collection: ")
+decoded =base64.urlsafe_b64decode(private).decode('utf-8')
+private_data =json.loads(decoded)
 
-#results = skins.find_all(name=lambda x: name.lower() in x.lower())
-
-#print("\nResults: ")
-#for skin in results:
- #   print(f"\t{skin.name.ljust(21)} ({skin.localizedNames['ja-JP']})")
+print(private_data.get("sessionLoopState"))
