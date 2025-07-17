@@ -9,12 +9,10 @@ load_dotenv()
 client = LocalClient()
 
 status = client.get_session()
-precence = client.get_presences(user=True)
 
-private_data_raw = precence['private']
-private_data = json.loads(private_data_raw)
+live = client.get_live_match()
 
-print(private_data['sessionLoopState'])
+print(live)
 
 #skins = client.get_skins()
 
