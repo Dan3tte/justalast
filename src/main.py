@@ -60,10 +60,11 @@ def Sleepnow (limite,jeu):
                 print("en partie !")
                 return ()
             else:
-            if not heure_depassee(limite)
-                print("limite d'heure non dépassée")
-                return ()
+                if not heure_depassee(limite):
+                    print("limite d'heure non dépassée")
+                    return ()
         return ()
+
 
 
 chemin_lockfile = os.path.join(
