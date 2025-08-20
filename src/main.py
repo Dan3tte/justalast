@@ -5,6 +5,7 @@ from requests.auth import HTTPBasicAuth
 from datetime import datetime, timedelta, time
 import urllib3
 import re
+import testAPI
 
 #desactive le warning SSL
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -36,13 +37,9 @@ def quitte(jeu):
 
 
 def est_en_game(jeu):
-    # VALO
-
-    # Trouver Lockfile -> Extraire le port + token -> Appeler URL avec les infos 
-    #-> Comparer les infos ("Ingame, Menus, Pregame...") 
-
-    # LOL
-    if jeu == "League of Legends (TM) Client":  
+    if ingameValo()=="INGAME":
+        return True
+    elif jeu == "League of Legends (TM) Client":  
         print("est en game de lol")
         return True
     else:
