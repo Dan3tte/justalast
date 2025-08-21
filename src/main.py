@@ -12,7 +12,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def trouvepid(jeu):
     for proc in psutil.process_iter(['pid', 'name']):
-        if proc.info['name'].lower() == jeu.lower():
+        if proc.info['name'].lower() in jeu.lower():
             return proc.info['pid']
     print("jeu non trouvé")
     return None
@@ -36,11 +36,17 @@ def quitte(jeu):
 
 
 
-def est_en_game(jeu):
-    if trouvepid("valorant") != None:
+def est_en_game_valo():
+    if trouvepid("valorant.exe") != None:
         if ingameValo()=="INGAME":
+            print("est en game de valo")
             return True
-    if jeu == "League of Legends (TM) Client":  
+        else:
+            return False
+
+def est_en_game_lol()
+    jeu = "League of Legends.exe"
+    if trouvepid(jeu) != None: 
         print("est en game de lol")
         return True
     else:
