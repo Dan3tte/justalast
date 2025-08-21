@@ -22,6 +22,7 @@ def ingameValo():
     private_data =json.loads(decoded)
 
     print(private_data.get("sessionLoopState"))
+    return (private_data.get("sessionLoopState"))
 
 
 

@@ -1,18 +1,18 @@
-import psutil
+import psutil #recherche pid linux / windows
 import os
 import requests
 from requests.auth import HTTPBasicAuth
 from datetime import datetime, timedelta, time
 import urllib3
 import re
-import testAPI
+from testAPI import ingameValo
 
 #desactive le warning SSL
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def trouvepid(jeu):
     for proc in psutil.process_iter(['pid', 'name']):
-        if proc.info['name'] == jeu:
+        if proc.info['name'].lower() == jeu.lower():
             return proc.info['pid']
     print("jeu non trouvé")
     return None
@@ -37,9 +37,10 @@ def quitte(jeu):
 
 
 def est_en_game(jeu):
-    if ingameValo()=="INGAME":
-        return True
-    elif jeu == "League of Legends (TM) Client":  
+    if trouvepid("valorant") != None:
+        if ingameValo()=="INGAME":
+            return True
+    if jeu == "League of Legends (TM) Client":  
         print("est en game de lol")
         return True
     else:
@@ -62,7 +63,7 @@ def Sleepnow (limite,jeu):
                     return ()
         return ()
 
-
+""" ANCIENNE METHODE POUR RECUP INGAME VALO
 
 chemin_lockfile = os.path.join(
     os.environ["LOCALAPPDATA"],"Riot Games","Riot Client","Config","lockfile"
@@ -97,7 +98,7 @@ reponse = requests.get(url_sessions, auth=HTTPBasicAuth("riot", token),verify = 
 
 print ("Status :", reponse.status_code)
 print ("Réponse :", reponse.text)
-
+"""
 
 limite = time(23,0)
 
