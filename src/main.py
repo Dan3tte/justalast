@@ -44,7 +44,7 @@ def est_en_game_valo():
         else:
             return False
 
-def est_en_game_lol()
+def est_en_game_lol():
     jeu = "League of Legends.exe"
     if trouvepid(jeu) != None: 
         print("est en game de lol")
@@ -52,11 +52,13 @@ def est_en_game_lol()
     else:
         return False
 
+def est_en_game():
+    return est_en_game_lol or est_en_game_valo
 
 
 
 def Sleepnow (limite,jeu):
-    if (not est_en_game(jeu) and heure_depassee(limite)):
+    if (not est_en_game() and heure_depassee(limite)):
         quitte(jeu)
     else:
         if heure_depassee(limite):
