@@ -12,7 +12,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def trouvepid(jeu):
     for proc in psutil.process_iter(['pid', 'name']):
-        if proc.info['name'].lower() == jeu.lower():
+        if proc.info['name'] == jeu:
             return proc.info['pid']
     print("jeu non trouvé")
     return None
@@ -57,56 +57,18 @@ def est_en_game():
 
 
 
-def Sleepnow (limite,jeu):
+def Sleepnow (limite):
     if not heure_depassee(limite):
         print("limite non atteinte !")
         return()
     if est_en_game():
         return()
     else:
-        quitte(trouvepid("League of Legends.exe"))
+        quitte(trouvepid("LeagueClient.exe"))
         quitte(trouvepid("valorant.exe"))
 
-""" ANCIENNE METHODE POUR RECUP INGAME VALO
-
-chemin_lockfile = os.path.join(
-    os.environ["LOCALAPPDATA"],"Riot Games","Riot Client","Config","lockfile"
-)
-
-
-def lirefile():
-    with open(chemin_lockfile, "r", encoding="utf-8") as fichier:
-        lockfile = fichier.read()
-    parties = lockfile.split(":")
-    return parties
-    
-
-parties = lirefile()
-print(parties)
-
-PID= parties[1]
-port = parties[2]
-token = parties [3]
-protocole = parties [4]
-
-#endpoint 
-endpoints = "/entitlements/v1/token"
-
-#url    
-url_sessions = f"{protocole}://127.0.0.1:{port}{endpoints}"
-
-#requete avec les header
-reponse = requests.get(url_sessions, auth=HTTPBasicAuth("riot", token),verify = False)
-
-
-
-print ("Status :", reponse.status_code)
-print ("Réponse :", reponse.text)
-"""
 
 limite = time(23,0)
 
-jeu = "snap-store"
 
-
-Sleepnow(limite,jeu)
+Sleepnow(limite)
