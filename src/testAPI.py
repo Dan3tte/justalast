@@ -22,8 +22,7 @@ def ingameValo():
 
     decoded =base64.urlsafe_b64decode(private).decode('utf-8')
     private_data =json.loads(decoded)
-
-    print(private_data.get("sessionLoopState"))
+    
     return (private_data.get("sessionLoopState"))
 
 

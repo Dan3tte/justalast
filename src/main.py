@@ -29,7 +29,11 @@ def heure_depassee(heure: time):
 
 
 def quitte(jeu):
-    proc = psutil.Process(trouvepid(jeu))
+    pid = trouvepid(jeu)
+    if pid == None:
+        print("Impossible de quitter")
+        return
+    proc = psutil.Process(pid)
     proc.kill()
     print("jeu quitté")
     return()
@@ -37,7 +41,7 @@ def quitte(jeu):
 
 
 def est_en_game_valo():
-    if trouvepid("valorant.exe") != None:
+    if trouvepid("VALORANT.exe") != None:
         if ingameValo()=="INGAME":
             print("est en game valo")
             return True
@@ -64,8 +68,8 @@ def Sleepnow (limite):
     if est_en_game():
         return()
     else:
-        quitte(trouvepid("LeagueClient.exe"))
-        quitte(trouvepid("valorant.exe"))
+        quitte("LeagueClient.exe")
+        quitte("VALORANT.exe")
 
 
 limite = time(23,0)
