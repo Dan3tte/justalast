@@ -13,6 +13,8 @@ def ingameValo():
     presence = client.get_presences(user=True)
 
     private = presence.get('private')
+    if not private:
+        return "UNKNOWN"
 
     missing_padding = len(private) % 4
     if missing_padding:
