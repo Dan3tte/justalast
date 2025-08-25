@@ -58,18 +58,14 @@ def est_en_game():
 
 
 def Sleepnow (limite,jeu):
-    if (not est_en_game() and heure_depassee(limite)):
-        quitte(jeu)
+    if not heure_depassee(limite):
+        print("limite non atteinte !")
+        return()
+    if est_en_game():
+        return()
     else:
-        if heure_depassee(limite):
-            if est_en_game(jeu):
-                print("en partie !")
-                return ()
-            else:
-                if not heure_depassee(limite):
-                    print("limite d'heure non dépassée")
-                    return ()
-        return ()
+        quitte(trouvepid("League of Legends.exe"))
+        quitte(trouvepid("valorant.exe"))
 
 """ ANCIENNE METHODE POUR RECUP INGAME VALO
 
