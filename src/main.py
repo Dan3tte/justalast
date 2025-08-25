@@ -14,7 +14,6 @@ def trouvepid(jeu):
     for proc in psutil.process_iter(['pid', 'name']):
         if proc.info['name'] == jeu:
             return proc.info['pid']
-    print("jeu non trouvé")
     return None
 
 
@@ -31,12 +30,11 @@ def heure_depassee(heure: time):
 def quitte(jeu):
     pid = trouvepid(jeu)
     if pid == None:
-        print("Impossible de quitter")
         return
     proc = psutil.Process(pid)
     proc.kill()
     print("jeu quitté")
-    return()
+    return
 
 
 
@@ -69,7 +67,8 @@ def Sleepnow (limite):
         return()
     else:
         quitte("LeagueClient.exe")
-        quitte("VALORANT.exe")
+        quitte("VALORANT-Win64-Shipping.exe")
+        quitte("RiotClientServices.exe")
 
 
 limite = time(23,0)
