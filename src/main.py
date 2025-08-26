@@ -61,13 +61,10 @@ def est_en_game():
     return est_en_game_lol() or est_en_game_valo()
 
 
-stop = False #condition d'arrêt
-
 limite = time(9,30)
 
 
-def Sleepnow (limite,scheduler):
-    global stop
+def Sleepnow (limite):
     if not heure_depassee(limite):
         print("limite non atteinte !")
         return()
@@ -77,15 +74,11 @@ def Sleepnow (limite,scheduler):
         quitte("LeagueClient.exe")
         quitte("VALORANT-Win64-Shipping.exe")
         quitte("RiotClientServices.exe")
-        stop = True
-        scheduler.shutdown(wait=False)
         return ()
 
 
 
-
-
 scheduler = BlockingScheduler()
-scheduler.add_job(Sleepnow, 'interval', seconds=10, args=[limite, scheduler])
+scheduler.add_job(Sleepnow, 'interval', seconds=10, args=[limite])
 scheduler.start()
 
