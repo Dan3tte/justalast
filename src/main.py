@@ -7,6 +7,9 @@ import urllib3
 import re
 from testAPI import ingameValo
 
+#boucler
+from apscheduler.schedulers.blocking import BlockingScheduler
+
 #desactive le warning SSL
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -58,8 +61,13 @@ def est_en_game():
     return est_en_game_lol() or est_en_game_valo()
 
 
+stop = False #condition d'arrêt
 
-def Sleepnow (limite):
+limite = time(9,30)
+
+
+def Sleepnow (limite,scheduler):
+    global stop
     if not heure_depassee(limite):
         print("limite non atteinte !")
         return()
@@ -69,9 +77,15 @@ def Sleepnow (limite):
         quitte("LeagueClient.exe")
         quitte("VALORANT-Win64-Shipping.exe")
         quitte("RiotClientServices.exe")
+        stop = True
+        scheduler.shutdown(wait=False)
+        return ()
 
 
-limite = time(23,0)
 
 
-Sleepnow(limite)
+
+scheduler = BlockingScheduler()
+scheduler.add_job(Sleepnow, 'interval', seconds=10, args=[limite, scheduler])
+scheduler.start()
+
