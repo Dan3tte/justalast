@@ -5,13 +5,21 @@ from requests.auth import HTTPBasicAuth
 from datetime import datetime, timedelta, time
 import urllib3
 import re
-from testAPI import ingameValo
+from APIvalo import ingameValo
+
+#lancer le schedular dans un autre thread pour permettre de faire tourner la boucle de l'ui
+import threading
 
 #boucler
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 
 #desactive le warning SSL
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+#ui
+if __name__ =="__main__":
+    from ui import lancer_ui
+    lancer_ui()
 
 def trouvepid(jeu):
     for proc in psutil.process_iter(['pid', 'name']):
@@ -48,20 +56,19 @@ def est_en_game_valo():
             return True
         else:
             return False
+    else:
+        print("Valorant non trouvé")
 
 def est_en_game_lol():
     jeu = "League of Legends.exe"
     if trouvepid(jeu) != None: 
-        print("est en game lol")
         return True
     else:
         return False
+    elseprint ("Lol non trouvé")
 
 def est_en_game():
     return est_en_game_lol() or est_en_game_valo()
-
-
-limite = time(9,30)
 
 
 def Sleepnow (limite):
@@ -77,8 +84,25 @@ def Sleepnow (limite):
         return ()
 
 
+scheduler = None 
 
-scheduler = BlockingScheduler()
-scheduler.add_job(Sleepnow, 'interval', seconds=10, args=[limite])
-scheduler.start()
+def start_scheduler(limite):
+    global scheduler
+    stop_scheduler()
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(Sleepnow, 'interval', seconds=5, args=[limite,])
+    scheduler.start()
+
+def stop_scheduler():
+    global scheduler
+    if scheduler is not None:
+        scheduler.shutdown()
+        scheduler=None
+        print("Scheduler arrêté")
+
+
+#lance schedular dans un thread séparé : 
+def start_threading(limite):
+    thread = threading.Thread(target = start_scheduler,args=(limite,), daemon=True)
+    thread.start()
 
