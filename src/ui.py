@@ -11,7 +11,7 @@ def lancer_ui():
     app.title("Sleepnow")
     app.geometry("1000x800")
 
-    label=tk.CTkLabel(app, text="Choisi tes horaires", font=("Arial", 45))
+    label=tk.CTkLabel(app, text="Choisi tes horaires", font=("Arial", 40))
     label.pack(pady=10)
 
     heures = [f"{i:2}" for i in range(24)]
@@ -70,3 +70,6 @@ def lancer_ui():
     )
 
     app.mainloop()
+
+if __name__ == "__main__":
+    lancer_ui()
