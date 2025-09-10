@@ -19,9 +19,10 @@ We all know the story:
 - Run on **Windows** directly, or  
 - Build an `.exe` using [PyInstaller](https://pyinstaller.org/) with `ui.py` if you want a standalone app.  
 
-- The first time you launch the .exe, Windows may warn you with a blue screen ("Windows protected your PC").
-- This happens because the app is unsigned (I don’t have a certificate yet).
-- Just click "More info" → "Run anyway". After the first run, Windows will remember your choice.
+## *⚠️ Note for Windows users:*
+The first time you launch the .exe, Windows may warn you with a blue screen ("Windows protected your PC").
+This happens because the app is unsigned (I don’t have a certificate yet).
+Just click "More info" → "Run anyway". After the first run, Windows will remember your choice.
 
 
 ## 💡 Why I made this
