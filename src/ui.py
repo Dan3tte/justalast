@@ -3,70 +3,106 @@ from main import Sleepnow, start_threading, stop_scheduler
 from datetime import datetime, timedelta, time
 import threading
 
+import customtkinter as tk
+from datetime import time
+from main import start_threading, stop_scheduler
+
+
 def lancer_ui():
+    tk.set_appearance_mode("dark")
+    tk.set_default_color_theme("blue")
 
-    tk.set_appearance_mode("Dark")
+    app = tk.CTk()
+    app.title("JustaLast - Modern Time Scheduler")
+    app.geometry("600x700")
+    app.configure(fg_color="#0d1b2a")  # solid dark background
 
-    app=tk.CTk()
-    app.title("Sleepnow")
-    app.geometry("1000x800")
+    # --- Main frame (the "card") ---
+    main_frame = tk.CTkFrame(app, corner_radius=20, fg_color="#1b263b")
+    main_frame.pack(pady=40, padx=40, fill="both", expand=True)
 
-    label=tk.CTkLabel(app, text="Choisi tes horaires", font=("Arial", 45))
-    label.pack(pady=10)
+    # Title
+    title = tk.CTkLabel(main_frame, text="JustaLast",
+                        font=("Arial Rounded MT Bold", 40, "bold"))
+    title.pack(pady=(30, 5))
 
-    heures = [f"{i:2}" for i in range(24)]
-    minutes= [f"{i:02}" for i in range(61)]
+    subtitle = tk.CTkLabel(main_frame, text="Modern Time Scheduler",
+                           font=("Arial", 18))
+    subtitle.pack(pady=(0, 30))
 
-    label=tk.CTkLabel(app, text="heures :", font=("Arial", 25))
-    label.pack(pady=5)
+    # Time selectors
+    heures = [f"{i:02}" for i in range(24)]
+    minutes = [f"{i:02}" for i in range(60)]
 
-    dropdown_h = tk.CTkOptionMenu(app, values=heures,width=200, height = 60,font=("Arial", 20))
-    dropdown_h.pack(pady=20)
+    frame_time = tk.CTkFrame(main_frame, corner_radius=15, fg_color="#24344d")
+    frame_time.pack(pady=20, padx=20)
 
-    label=tk.CTkLabel(app, text="minutes :", font=("Arial", 25))
-    label.pack(pady=5)
+    label_h = tk.CTkLabel(frame_time, text="Hours", font=("Arial", 20))
+    label_h.grid(row=0, column=0, padx=20, pady=10)
 
-    dropdown_m = tk.CTkOptionMenu(app, values=minutes, width=200, height = 60,font=("Arial", 20))
-    dropdown_m.pack(pady=20)
+    dropdown_h = tk.CTkOptionMenu(frame_time, values=heures,
+                                  width=120, height=40, font=("Arial", 18))
+    dropdown_h.grid(row=1, column=0, padx=20, pady=10)
 
+    label_m = tk.CTkLabel(frame_time, text="Minutes", font=("Arial", 20))
+    label_m.grid(row=0, column=1, padx=20, pady=10)
 
-    #start threading
-    def on_click_start(): 
-        heures=dropdown_h.get()
-        minutes=dropdown_m.get()
-        limite=time(int(heures),int(minutes))
-        status_label.configure(text=f"Scheduler lancé avec limite :{heures}h{minutes}")
+    dropdown_m = tk.CTkOptionMenu(frame_time, values=minutes,
+                                  width=120, height=40, font=("Arial", 18))
+    dropdown_m.grid(row=1, column=1, padx=20, pady=10)
+
+    # Time display
+    time_display = tk.CTkLabel(main_frame, text="--:--",
+                               font=("Arial Rounded MT Bold", 36, "bold"))
+    time_display.pack(pady=20)
+
+    # Start/Stop logic
+    def on_click_start():
+        h, m = dropdown_h.get(), dropdown_m.get()
+        limite = time(int(h), int(m))
+        time_display.configure(text=f"{h}:{m}")
+        status_label.configure(text=f"Started at {h}:{m}", text_color="green")
         start_threading(limite)
 
     def on_click_stop():
         stop_scheduler()
-        status_label.configure(text="Scheduler arrêté")
+        status_label.configure(text="Stopped", text_color="red")
 
-    button_frame = tk.CTkFrame(app)
-    button_frame.pack(pady=10)
+    # Buttons
+    button_frame = tk.CTkFrame(main_frame, fg_color="transparent")
+    button_frame.pack(pady=20)
 
-    button_start = tk.CTkButton(button_frame , text="Start", command=on_click_start, width=300, height = 100, font=("Arial", 40))
-    button_start.grid(row=0, column=0, padx=15, pady=20)
+    tk.CTkButton(button_frame, text="▶ Start", command=on_click_start,
+                 width=160, height=60, font=("Arial Rounded MT Bold", 22),
+                 fg_color="green", hover_color="#2eb82e").grid(row=0, column=0, padx=20)
 
-    button_stop = tk.CTkButton(button_frame , text="Stop", command=on_click_stop, width=300, height = 100, font=("Arial", 40))
-    button_stop.grid(row=0, column=1, padx=15, pady=20)
+    tk.CTkButton(button_frame, text="■ Stop", command=on_click_stop,
+                 width=160, height=60, font=("Arial Rounded MT Bold", 22),
+                 fg_color="gray30", hover_color="gray45").grid(row=0, column=1, padx=20)
 
-    status_label = tk.CTkLabel(app, text="",font=("Arial", 35))
-    status_label.pack(pady=10)
-
-    def toggle_info():
-        if info_label.winfo_viewable():
-            info_label.pack_forget()  # Masquer
-        else:
-            info_label.pack(pady=10, padx=10)  # Afficher
-
-    mode_nuit_btn = tk.CTkButton(app, text="Mode nuit", command=toggle_info,width=120, height=40, font=("Helvetica", 18))
-    mode_nuit_btn.pack(pady=20)
-
-    info_label = tk.CTkLabel(app, text="Si vous choisissez une horaire avant 6h, l’application activera automatiquement le mode nuit. Les programmes sélectionnés seront bloqués jusqu’au lendemain matin pour vous aider à respecter votre temps de repos.",
-        font=("Helvetica", 30),
-        justify="left",  
-        wraplength=400  
+    # Info label (hidden)
+    info_label = tk.CTkLabel(
+        main_frame,
+        text="If you select a time between 00:00 and 06:00, "
+             "Night Mode will automatically activate for the next day.",
+        font=("Arial", 16), justify="center", wraplength=400
     )
 
+    def toggle_info():
+        if info_label.winfo_ismapped():
+            info_label.pack_forget()
+        else:
+            info_label.pack(pady=15, padx=20)
+
+    tk.CTkButton(main_frame, text="ℹ", width=40, height=40,
+                 font=("Arial", 20), command=toggle_info).pack(pady=(10, 5))
+
+    # Status
+    status_label = tk.CTkLabel(main_frame, text="", font=("Arial", 20))
+    status_label.pack(pady=15)
+
     app.mainloop()
+
+
+if __name__ == "__main__":
+    lancer_ui()
