@@ -30,4 +30,4 @@ If you have ideas or improvements, feel free to open an issue or pull request!
 
 ---
 
-Gaming stays fun. Sleep stays safe
+*Gaming stays fun. Sleep stays safe*
