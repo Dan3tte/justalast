@@ -27,5 +27,7 @@ This app helps keep gaming fun while respecting your limits.
 This is just a side project, so I’d love to hear what you think.  
 If you have ideas or improvements, feel free to open an issue or pull request!  
 
-Gaming stays fun. Sleep stays safe
+
 ---
+
+Gaming stays fun. Sleep stays safe
