@@ -3,9 +3,6 @@ from main import Sleepnow, start_threading, stop_scheduler
 from datetime import datetime, timedelta, time
 import threading
 
-import customtkinter as tk
-from datetime import time
-from main import start_threading, stop_scheduler
 
 
 def lancer_ui():
@@ -15,18 +12,31 @@ def lancer_ui():
     app = tk.CTk()
     app.title("JustaLast - Modern Time Scheduler")
     app.geometry("600x700")
-    app.configure(fg_color="#0d1b2a")  # solid dark background
 
-    # --- Main frame (the "card") ---
+    # --- Gradient background ---
+    canvas = tk.CTkCanvas(app, width=600, height=700, highlightthickness=0, bg="#0d1b2a")
+    canvas.pack(fill="both", expand=True)
+
+    steps = 100
+    for i in range(steps):
+        color_value = int(13 + (30 - 13) * (i / steps))  # from #0d1b2a → #1e2a38
+        color = f"#{color_value:02x}{color_value:02x}{(42 + i // 2):02x}"
+        canvas.create_rectangle(0, i * 7, 600, (i + 1) * 7, outline="", fill=color)
+
+    # --- Main card ---
     main_frame = tk.CTkFrame(app, corner_radius=20, fg_color="#1b263b")
-    main_frame.pack(pady=40, padx=40, fill="both", expand=True)
+    canvas.create_window(300, 350, window=main_frame, width=500, height=600)
+
+    # --- Scrollable content inside the card ---
+    content = tk.CTkScrollableFrame(main_frame, fg_color="transparent")
+    content.pack(fill="both", expand=True, padx=10, pady=10)
 
     # Title
-    title = tk.CTkLabel(main_frame, text="JustaLast",
+    title = tk.CTkLabel(content, text="JustaLast",
                         font=("Arial Rounded MT Bold", 40, "bold"))
     title.pack(pady=(30, 5))
 
-    subtitle = tk.CTkLabel(main_frame, text="Modern Time Scheduler",
+    subtitle = tk.CTkLabel(content, text="Modern Time Scheduler",
                            font=("Arial", 18))
     subtitle.pack(pady=(0, 30))
 
@@ -34,7 +44,7 @@ def lancer_ui():
     heures = [f"{i:02}" for i in range(24)]
     minutes = [f"{i:02}" for i in range(60)]
 
-    frame_time = tk.CTkFrame(main_frame, corner_radius=15, fg_color="#24344d")
+    frame_time = tk.CTkFrame(content, corner_radius=15, fg_color="#24344d")
     frame_time.pack(pady=20, padx=20)
 
     label_h = tk.CTkLabel(frame_time, text="Hours", font=("Arial", 20))
@@ -52,7 +62,7 @@ def lancer_ui():
     dropdown_m.grid(row=1, column=1, padx=20, pady=10)
 
     # Time display
-    time_display = tk.CTkLabel(main_frame, text="--:--",
+    time_display = tk.CTkLabel(content, text="--:--",
                                font=("Arial Rounded MT Bold", 36, "bold"))
     time_display.pack(pady=20)
 
@@ -69,7 +79,7 @@ def lancer_ui():
         status_label.configure(text="Stopped", text_color="red")
 
     # Buttons
-    button_frame = tk.CTkFrame(main_frame, fg_color="transparent")
+    button_frame = tk.CTkFrame(content, fg_color="transparent")
     button_frame.pack(pady=20)
 
     tk.CTkButton(button_frame, text="▶ Start", command=on_click_start,
@@ -80,26 +90,31 @@ def lancer_ui():
                  width=160, height=60, font=("Arial Rounded MT Bold", 22),
                  fg_color="gray30", hover_color="gray45").grid(row=0, column=1, padx=20)
 
-    # Info label (hidden)
+    # Status
+    status_label = tk.CTkLabel(content, text="", font=("Arial", 20))
+    status_label.pack(pady=10)
+
+    # Info label (hidden at start)
     info_label = tk.CTkLabel(
-        main_frame,
+        content,
         text="If you select a time between 00:00 and 06:00, "
              "Night Mode will automatically activate for the next day.",
         font=("Arial", 16), justify="center", wraplength=400
     )
+    info_visible = False
 
     def toggle_info():
-        if info_label.winfo_ismapped():
+        nonlocal info_visible
+        if info_visible:
             info_label.pack_forget()
+            info_visible = False
         else:
             info_label.pack(pady=15, padx=20)
+            info_visible = True
 
-    tk.CTkButton(main_frame, text="ℹ", width=40, height=40,
-                 font=("Arial", 20), command=toggle_info).pack(pady=(10, 5))
-
-    # Status
-    status_label = tk.CTkLabel(main_frame, text="", font=("Arial", 20))
-    status_label.pack(pady=15)
+    # Info button
+    tk.CTkButton(content, text="ℹ", width=40, height=40,
+                 font=("Arial", 20), command=toggle_info).pack(pady=(5, 10))
 
     app.mainloop()
 
