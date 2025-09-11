@@ -2,7 +2,13 @@ import customtkinter as tk
 from main import Sleepnow, start_threading, stop_scheduler
 from datetime import datetime, timedelta, time
 import threading
+import sys, os
 
+def resource_path(relative_path):
+    """ Get absolute path to resource (works for dev and for PyInstaller) """
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
 
 def lancer_ui():
@@ -12,7 +18,7 @@ def lancer_ui():
     app = tk.CTk()
     app.title("JustaLast")
     app.geometry("600x700")
-    app.iconbitmap("JaL.ico")  
+    app.iconbitmap(resource_path("JaL.ico"))
 
     # --- Gradient background ---
     canvas = tk.CTkCanvas(app, width=600, height=700, highlightthickness=0, bg="#0d1b2a")
