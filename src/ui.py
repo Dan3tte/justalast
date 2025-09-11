@@ -10,7 +10,7 @@ def lancer_ui():
     tk.set_default_color_theme("blue")
 
     app = tk.CTk()
-    app.title("JustaLast - Modern Time Scheduler")
+    app.title("JustaLast")
     app.geometry("600x700")
     app.iconbitmap("JaL.ico")  
 
@@ -37,8 +37,8 @@ def lancer_ui():
                         font=("Arial Rounded MT Bold", 40, "bold"))
     title.pack(pady=(30, 5))
 
-    subtitle = tk.CTkLabel(content, text="Modern Time Scheduler",
-                           font=("Arial", 18))
+    subtitle = tk.CTkLabel(content, text="Gaming stays fun. Sleep stays safe",
+                           font=("italic_font", 15, "italic"))
     subtitle.pack(pady=(0, 30))
 
     # Time selectors
