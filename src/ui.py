@@ -12,6 +12,7 @@ def lancer_ui():
     app = tk.CTk()
     app.title("JustaLast - Modern Time Scheduler")
     app.geometry("600x700")
+    app.iconbitmap("JaL.ico")  
 
     # --- Gradient background ---
     canvas = tk.CTkCanvas(app, width=600, height=700, highlightthickness=0, bg="#0d1b2a")
