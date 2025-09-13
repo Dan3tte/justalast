@@ -1,6 +1,6 @@
 # Just a Last
 
-We all know the story:  
+Do you kno< this feeling ?  
 *"just a last game"* → another one → suddenly it's 3AM.  
 
 **Just a Last** is a small Windows app that helps you (and your friends) actually stop when you planned to.  
@@ -35,5 +35,3 @@ If you have ideas or improvements, feel free to open an issue or pull request!
 
 
 ---
-
-*Gaming stays fun. Sleep stays safe*
