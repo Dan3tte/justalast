@@ -4,10 +4,10 @@ Do you know this feeling ?
 
 *"just a last game"* → another one → suddenly it's 3AM.  
 
-**Just a Last** is a small Windows app that helps you (and your friends) actually stop when you planned to.  
+**Just a Last** is a small Windows app that helps you (and your friends) actually stop to play league or valorant when you planned to.  
 
 ## Features
-- 🛑 Automatically closes **Valorant** or **League of Legends** once your set time limit is reached.  
+- 🛑 Automatically closes only **Valorant** or **League of Legends** once your set time limit is reached.  
 - ✅ Smart detection: it only closes the game **after your match ends** (no mid-game rage quits).  
 - 🌙 **Night mode** enabled by default (blocks gaming past 6 AM).  
   - You can change this in [`main.py`](./main.py) inside the `heure_depassee` function.  
