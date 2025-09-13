@@ -1,6 +1,7 @@
 # Just a Last
 
-Do you kno< this feeling ?  
+Do you know this feeling ?  
+
 *"just a last game"* → another one → suddenly it's 3AM.  
 
 **Just a Last** is a small Windows app that helps you (and your friends) actually stop when you planned to.  
