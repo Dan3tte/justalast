@@ -25,7 +25,7 @@ Do you know this feeling ?
   - Start/stop the program  
   - See current status  
 
-## ⚙️ How to Use
+## How to Use
 
 - Run on **Windows** directly by clicking on /dist directory and then on ui.exe , or  
 - Build an `.exe` using [PyInstaller](https://pyinstaller.org/) with `ui.py` if you want a standalone app.  
@@ -36,11 +36,11 @@ This happens because the app is unsigned (I don’t have a certificate yet).
 Just click "More info" → "Run anyway". After the first run, Windows will remember your choice.
 
 
-## 💡 Why I made this
+## Why I made this
 I made this because my friends and I always said *“last game”*… and ended up sleeping way too late.  
 This app helps keep gaming fun while respecting your limits.  
 
-## 📩 Feedback
+## Feedback
 This is my first side project, so I’d love to hear what you think.  
 If you have ideas or improvements, feel free to open an issue or pull request!  
 
